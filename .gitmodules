@@ -1,0 +1,3 @@
+[submodule "AVL_Tree"]
+	path = AVL_Tree
+	url = https://github.com/yanaakipova-code/AVL_Tree.git
