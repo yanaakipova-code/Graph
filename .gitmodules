@@ -1,3 +1,6 @@
 [submodule "AVL_Tree"]
 	path = AVL_Tree
 	url = https://github.com/yanaakipova-code/AVL_Tree.git
+[submodule "libs"]
+	path = libs
+	url = https://github.com/yanaakipova-code/lab2-3
