@@ -60,6 +60,15 @@ private:
         }
 
     }
+
+    Option<std::size_t> find_position(const Index& value, const ArraySequence<Index>& seq) const {
+        for (std::size_t i = 0; i < seq.GetLength(); ++i) {
+            if (seq[i] == value) {
+                return Option<std::size_t>::Some(i);
+            }
+        }
+        return Option<std::size_t>::None();
+    }
 public:
 
     void add_vertex(const Index& index, const VertexData& vertex_data){
@@ -228,7 +237,11 @@ public:
             previous.Append(Index{});
         }
 
-        std::size_t start_pos = find_position(start, vertices);
+        Option<std::size_t> start_pos_opt = find_position(start, vertices);
+        if (!start_pos_opt.HasValue()) {
+            throw vertex_not_found("Начальной вершины нет в списке вершин");
+        }
+        std::size_t start_pos = start_pos_opt.GetValue();
         dist[start_pos] = 0;
         previous[start_pos] = start;
         
@@ -262,10 +275,35 @@ public:
                 }
             }
         }
-        dist;
+        return dist;
     }
 
+    std::string get_string_from_path(const ArraySequence<Index>& path) const 
+        requires std::same_as<Weight, std::string>
+    {
+        std::string result;
 
+        if (path.GetLength() == 0) {
+            return result;
+        }
+
+        for (std::size_t i = 0; i < path.GetLength(); i++) {
+            if (!m_vertexs.contains_key(path[i])) {
+                return{};
+            }
+
+            if (i + 1 < path.GetLength()) {
+
+                if (!m_edges.contains_key(EdgeKey(path[i], path[i + 1]))) {
+                   return{};
+                }
+
+                result += get_weight_edge(path[i], path[i + 1]);
+            }
+        }
+
+        return result;
+    }
 
 };
 
