@@ -1,1 +1,7 @@
-/.vscode
+.vscode
+build/
+*.exe
+*.obj
+*.o
+*.d
+CMakeLists.txt
